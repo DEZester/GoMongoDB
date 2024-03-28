@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func GetProducts(c *gin.Context) {
@@ -26,7 +27,25 @@ func GetProducts(c *gin.Context) {
 }
 
 func AddProducts(c *gin.Context) {
+	var body model.CreateProductRequest
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
+	res, err := database.Products.InsertOne(c, body)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "unable to create product"})
+		return
+	}
+	product := model.Product{
+		ID:       res.InsertedID.(primitive.ObjectID),
+		Name:     body.Name,
+		Category: body.Category,
+		Price:    body.Price,
+		Stock:    body.Stock,
+	}
+	c.IndentedJSON(http.StatusCreated, product)
 }
 
 func GetProductById(c *gin.Context) {

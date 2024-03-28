@@ -9,3 +9,10 @@ type Product struct {
 	Price    float32            `bson:"price" json:"price"`
 	Stock    int                `bson:"stock" json:"stock"`
 }
+
+type CreateProductRequest struct {
+	Name     string  `bson:"name" json:"name"`
+	Category string  `bson:"category" json:"category"`
+	Price    float32 `bson:"price" json:"price"`
+	Stock    int     `bson:"stock" json:"stock"`
+}
