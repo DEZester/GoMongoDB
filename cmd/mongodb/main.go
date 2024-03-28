@@ -17,7 +17,7 @@ func main() {
 	}
 	mongoURI := os.Getenv("MONGO_URI")
 
-	connectToDB := database.Init(mongoURI, "development")
+	connectToDB := database.Init(mongoURI, "GoApiMongoDB")
 	if connectToDB != nil {
 		panic(connectToDB)
 	}
