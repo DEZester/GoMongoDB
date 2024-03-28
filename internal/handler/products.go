@@ -49,7 +49,7 @@ func AddProducts(c *gin.Context) {
 }
 
 func GetProductById(c *gin.Context) {
-	id := c.Param(":id")
+	id := c.Param("id")
 	_id, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -69,7 +69,7 @@ func GetProductById(c *gin.Context) {
 }
 
 func UpdateProductScockById(c *gin.Context) {
-	id := c.Param(":id")
+	id := c.Param("id")
 	_id, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -94,7 +94,7 @@ func UpdateProductScockById(c *gin.Context) {
 }
 
 func UpdateProductPricekById(c *gin.Context) {
-	id := c.Param(":id")
+	id := c.Param("id")
 	_id, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -109,7 +109,7 @@ func UpdateProductPricekById(c *gin.Context) {
 		return
 	}
 
-	_, err = database.Products.UpdateOne(c, bson.M{"_id": _id}, bson.M{"$set": bson.M{"stock": body.Price}})
+	_, err = database.Products.UpdateOne(c, bson.M{"_id": _id}, bson.M{"$set": bson.M{"price": body.Price}})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "unable to update product price"})
 		return
@@ -119,7 +119,7 @@ func UpdateProductPricekById(c *gin.Context) {
 }
 
 func DeleteProductById(c *gin.Context) {
-	id := c.Param(":id")
+	id := c.Param("id")
 	_id, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
