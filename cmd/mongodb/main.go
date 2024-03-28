@@ -2,6 +2,7 @@ package main
 
 import (
 	"GoMongoDB/internal/database"
+	"GoMongoDB/internal/handler"
 	"fmt"
 	"os"
 
@@ -31,13 +32,13 @@ func main() {
 
 	router := gin.Default()
 
-	router.GET("/products")
-	router.POST("/products")
+	router.GET("/products", handler.GetProducts)
+	router.POST("/products", handler.AddProducts)
 
-	router.GET("/products/:id")
-	router.PATCH("/products/:id/stock")
-	router.PATCH("/products/:id/price")
-	router.DELETE("/products/:id")
+	router.GET("/products/:id", handler.GetProductById)
+	router.PATCH("/products/:id/stock", handler.UpdateProductScockById)
+	router.PATCH("/products/:id/price", handler.UpdateProductPricekById)
+	router.DELETE("/products/:id", handler.DeleteProductById)
 
 	router.Run(":8080")
 }
