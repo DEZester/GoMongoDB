@@ -8,7 +8,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var client *mongo.Client
+var (
+	client   *mongo.Client
+	Products *mongo.Collection
+)
 
 func Init(uri, database string) error {
 
@@ -22,6 +25,8 @@ func Init(uri, database string) error {
 	}
 
 	client = localClient
+
+	Products = client.Database(database).Collection("products")
 
 	err = client.Database("admin").RunCommand(context.TODO(), bson.D{{Key: "ping", Value: 1}}).Err()
 	return err
