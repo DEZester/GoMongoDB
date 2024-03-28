@@ -23,7 +23,7 @@ func Init(uri, database string) error {
 
 	client = localClient
 
-	err = client.Database("admin").RunCommand(context.TODO(), bson.D{{"ping", 1}}).Err()
+	err = client.Database("admin").RunCommand(context.TODO(), bson.D{{Key: "ping", Value: 1}}).Err()
 	return err
 }
 
