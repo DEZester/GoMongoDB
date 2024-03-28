@@ -119,5 +119,23 @@ func UpdateProductPricekById(c *gin.Context) {
 }
 
 func DeleteProductById(c *gin.Context) {
+	id := c.Param(":id")
+	_id, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
+	res, err := database.Products.DeleteOne(c, bson.M{"_id": _id})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "unable to delete product"})
+		return
+	}
+
+	if res.DeletedCount == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "product not found"})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, gin.H{"success": "product deleted"})
 }
