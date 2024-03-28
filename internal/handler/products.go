@@ -49,6 +49,21 @@ func AddProducts(c *gin.Context) {
 }
 
 func GetProductById(c *gin.Context) {
+	id := c.Param(":id")
+	_id, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	result := database.Products.FindOne(c, primitive.M{"_id": _id})
+	product := model.Product{}
+	err = result.Decode(&product)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "unable to find product"})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, product)
 
 }
 
