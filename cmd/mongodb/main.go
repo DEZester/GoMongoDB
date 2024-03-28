@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -27,4 +28,16 @@ func main() {
 			panic(err)
 		}
 	}()
+
+	router := gin.Default()
+
+	router.GET("/products")
+	router.POST("/products")
+
+	router.GET("/products/:id")
+	router.PATCH("/products/:id/stock")
+	router.PATCH("/products/:id/price")
+	router.DELETE("/products/:id")
+
+	router.Run(":8080")
 }
